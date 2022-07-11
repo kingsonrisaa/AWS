@@ -1,0 +1,52 @@
+Document - Commands to Setup ClientVPN Endpoint
+Step 1: Generate Certificates:
+
+sudo yum -y install git
+git clone https://github.com/OpenVPN/easy-rsa.git
+cd easy-rsa/easyrsa3
+./easyrsa init-pki
+./easyrsa build-ca nopass
+./easyrsa build-server-full server nopass
+./easyrsa build-client-full client1.kplabs.internal nopass
+
+
+Step 2: Copy Certificates to Central Folder:
+
+mkdir ~/custom_folder/
+cp pki/ca.crt ~/custom_folder/
+cp pki/issued/server.crt ~/custom_folder/
+cp pki/private/server.key ~/custom_folder/
+cp pki/issued/client1.kplabs.internal.crt ~/custom_folder
+cp pki/private/client1.kplabs.internal.key ~/custom_folder/
+cd ~/custom_folder/
+
+
+Step 3: Upload Certificate to ACM:
+
+
+
+aws acm import-certificate --certificate fileb://server.crt --private-key fileb://server.key --certificate-chain fileb://ca.crt --region ap-southeast-1
+
+
+
+Step 4: Copy the Certificates to Laptop:
+
+scp ec2-user@IP:/home/ec2-user/custom_folder/client* .
+
+
+
+Step 5: Central Client Configuration File:
+
+Following contents to be added to central ovpn configuration file -
+
+<cert>
+Contents of client certificate (.crt) file
+</cert>
+
+
+<key>
+Contents of private key (.key) file
+</key>
+
+
+Step 6: Prepend the DNS Name.
