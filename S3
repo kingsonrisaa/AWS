@@ -40,3 +40,49 @@ Policy 2 - Allow Only HTTPS
     }
   ]
 }
+
+
+1. S3 Bucket Policy
+
+Make sure to replace the Account Number and S3 Bucket Name.
+
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Principal": {
+                "AWS": "arn:aws:iam::ACCOUNT-B-NUMBER:root"
+            },
+            "Action": [
+                "s3:GetObject",
+                "s3:PutObject",
+                "s3:PutObjectAcl"
+            ],
+            "Resource": [
+                "arn:aws:s3:::mykplabs-central/*"
+            ]
+        }
+    ]
+}
+
+
+2. IAM Policy for IAM User of Account B
+
+Make sure to replace the S3 Bucket Name.
+
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "s3:GetObject",
+                "s3:PutObject",
+                "s3:PutObjectAcl"
+            ],
+            "Resource": "arn:aws:s3:::mykplabs-central/*"
+ 
+        }
+    ]
+}
