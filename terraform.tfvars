@@ -1,0 +1,5 @@
+vpc-cidr = "10.10.0.0/16"
+cidr-subnet-wordpress-public = "10.10.0.0/24"
+az-wordpress-public = "us-east-1a"
+ami-id = "ami-0230bd60aa48260c6"
+instance-wordpress-type = "t2.micro"
